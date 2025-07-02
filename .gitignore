@@ -1,11 +1,85 @@
+# Python 가상환경 및 캐시
 .venv/
-*.log
-*.txt
 __pycache__/
-.venv/
+
+# VSCode 설정
+.vscode/
+
+# 로그 및 임시 데이터
 logs/
 *.log
-__pycache__/
+*.tmp
+*.swp
+
+# 빌드 및 바이너리 파일
+build/
+*.o
+*.out
+*.exe
+
+# OS, IDE 생성 파일
+.DS_Store
+Thumbs.db
+
+# 기타
 *.pyc
+*.pyo
+# 🐍 Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+*.pyo
+*.pyd
+*.env
+.venv/
+venv/
+ENV/
+env/
+*.sqlite3
 
+# 📦 패키지 관리자 관련
+Pipfile.lock
+poetry.lock
 
+# 📁 가상환경 및 빌드
+python_analyzer/venv/
+build/
+dist/
+
+# ⚙️ CMake, Make 빌드
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+compile_commands.json
+
+# 🧪 테스트/로그/임시 파일
+*.log
+*.tmp
+*.swp
+logs/
+*.out
+*.bak
+
+# 🖼 IDE/에디터 환경 파일
+.vscode/
+.idea/
+.DS_Store
+*.iml
+
+# 🧪 기타 확장
+*.zip
+*.tar.gz
+*.tar
+*.7z
+*.rar
+*.o
+*.a
+*.so
+
+# ⚙️ CMake, Make 빌드
+Makefile
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
