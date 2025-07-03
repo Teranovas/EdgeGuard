@@ -6,7 +6,6 @@ C++로 작성된 CPU 모니터링 프로그램과 Python 기반 시각화 도구
 
 ---
 
-<details> <summary>🔧 복붙용</summary> <pre><code> ## 📁 프로젝트 구조 ``` EdgeGuard/ ├── cpp_monitor/ # C++ 모듈 디렉토리 │ └── monitor.cpp # CPU 사용률 측정 로직 ├── logs/ │ └── data.txt # CPU 로그 저장 파일 ├── python_analyzer/ # Python 시각화 디렉토리 │ ├── live_plot_cpu.py # 실시간 시각화 (matplotlib) │ ├── plot_cpu_usage.py # 정적 분석용 시각화 (옵션) │ └── venv/ # Python 가상환경 (matplotlib 포함) ├── run_all.sh # 전체 자동 실행 스크립트 └── README.md # 프로젝트 설명서 ``` </code></pre> </details>
 
 ## 🚀 실행 방법
 

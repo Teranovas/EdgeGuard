@@ -9,3 +9,9 @@ Makefile linguist-vendored
 *.dll linguist-generated
 *.class linguist-generated
 *.jar linguist-generated
+
+# Exclude build system files from language stats
+CMakeLists.txt linguist-vendored
+*.sh linguist-generated
+*.cmake linguist-generated
+*.yml linguist-generated
