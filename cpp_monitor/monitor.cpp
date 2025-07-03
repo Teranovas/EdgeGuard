@@ -19,7 +19,7 @@ int main() {
     for (int i = 0; i < 10; ++i) {  // 10번 반복 (원하면 while(true)로 바꿀 수도 있음)
         double usage = get_cpu_usage();
 
-        std::ofstream out("../../logs/data.txt", std::ios::app); // 기존 내용 뒤에 추가
+        std::ofstream out("/Users/apple/EdgeGuard/logs/data.txt", std::ios::app); // 기존 내용 뒤에 추가
         out << "CPU Usage: " << usage << "%" << std::endl;
         out.close();
 
