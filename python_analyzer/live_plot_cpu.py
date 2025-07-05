@@ -1,47 +1,47 @@
 import matplotlib
-matplotlib.use("TkAgg")  # macOS GUI용 백엔드 설정
+matplotlib.use("TkAgg")  # macOS GUI 백엔드 설정
 import matplotlib.pyplot as plt
 from matplotlib import animation
 import os
 
 log_path = "/Users/apple/EdgeGuard/logs/data.txt"
 
-print("🔍 파일 존재 여부:", os.path.exists(log_path))
-print("📂 경로 확인:", log_path)
+usage_cpu = []
+usage_mem = []
 
-# 파일 내용 출력
-try:
-    with open(log_path, "r") as f:
-        print("📄 파일 내용:")
-        print(f.read())
-except Exception as e:
-    print("❌ 파일 열기 실패:", e)
+def read_usage_data():
+    global usage_cpu, usage_mem
+    usage_cpu.clear()
+    usage_mem.clear()
 
-
-usage_values = []
-
-def read_cpu_usage():
-    global usage_values
-    usage_values.clear()  # ✅ 기존 전역 리스트를 비움
     try:
         with open(log_path, "r") as file:
             for line in file:
-                if "CPU Usage" in line:
-                    percent = float(line.strip().split(":")[1].replace("%", ""))
-                    usage_values.append(percent)
+                if "CPU Usage" in line and "Memory Usage" in line:
+                    try:
+                        cpu_part = line.split("CPU Usage:")[1].split("%")[0].strip()
+                        mem_part = line.split("Memory Usage:")[1].split("%")[0].strip()
+                        usage_cpu.append(float(cpu_part))
+                        usage_mem.append(float(mem_part))
+                    except ValueError:
+                        continue
     except FileNotFoundError:
-        print("Log file not found.")
-    return usage_values[-20:]
-
-
+        print("data.txt not found.")
+    return usage_cpu[-20:], usage_mem[-20:]
 
 def animate(i):
     plt.cla()
-    data = read_cpu_usage()
-    plt.plot(data, marker='o', linestyle='-', color='green')
-    plt.title("Live CPU Usage")
+    cpu_data, mem_data = read_usage_data()
+    x = list(range(len(cpu_data)))
+
+    plt.plot(x, cpu_data, marker='o', label="CPU Usage (%)", color='blue')
+    plt.plot(x, mem_data, marker='s', label="Memory Usage (%)", color='green')
+
+    plt.title("Live CPU & Memory Usage")
     plt.xlabel("Measurement Index")
-    plt.ylabel("CPU Usage (%)")
+    plt.ylabel("Usage (%)")
+    # plt.ylim(0, 100)  # ← 주석 처리: 자동 스케일 조정됨
+    plt.legend(loc="upper right")
     plt.grid(True)
     plt.tight_layout()
 
