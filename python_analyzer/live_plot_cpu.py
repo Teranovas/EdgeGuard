@@ -3,6 +3,7 @@ matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib import animation
 import os
+import datetime  # ✅ 그래프 저장용
 
 log_path = "/Users/apple/EdgeGuard/logs/data.txt"
 
@@ -41,10 +42,10 @@ def animate(i):
     # 선: 색상 조건별로 나눠서 따로 그림
     def plot_colored_line(data, colors, label_prefix):
         for color in set(colors):
-            indices = [i for i, c in enumerate(colors) if c == color]
+            indices = [j for j, c in enumerate(colors) if c == color]
             if len(indices) >= 2:
-                x_vals = [x[j] for j in indices]
-                y_vals = [data[j] for j in indices]
+                x_vals = [x[k] for k in indices]
+                y_vals = [data[k] for k in indices]
                 plt.plot(x_vals, y_vals, color=color, alpha=0.4, label=f"{label_prefix} {color.title()} Line")
 
     plot_colored_line(cpu_data, cpu_colors, "CPU")
@@ -67,7 +68,7 @@ def animate(i):
     if any(val >= 90 for val in mem_data):
         print("⚠️ MEMORY ALERT: Usage exceeded 90%!")
 
-    # 요약 통계 1회 출력
+    # ✅ 요약 통계 및 그래프 저장 (1회만)
     if i == 1 and cpu_data and mem_data:
         avg_cpu = sum(cpu_data) / len(cpu_data)
         max_cpu = max(cpu_data)
@@ -80,6 +81,11 @@ def animate(i):
         print("\n🔍 리소스 사용 요약 (최근 20회 기준)")
         print(f"🟦 CPU 평균: {avg_cpu:.1f}%, 최대: {max_cpu:.1f}%, 최소: {min_cpu:.1f}%")
         print(f"🟩 MEM 평균: {avg_mem:.1f}%, 최대: {max_mem:.1f}%, 최소: {min_mem:.1f}%\n")
+
+        # ✅ 그래프 저장
+        filename = f"resource_usage_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+        plt.savefig(filename)
+        print(f"📸 그래프 저장됨: {filename}")
 
 fig = plt.figure(figsize=(10, 5))
 ani = animation.FuncAnimation(fig, animate, interval=2000)
