@@ -34,11 +34,23 @@ def animate(i):
     cpu_data, mem_data = read_usage_data()
     x = list(range(len(cpu_data)))
 
-    # ✅ [추가] 경고 색상 조건
+    # 점별 색상
     cpu_colors = ['red' if val >= 90 else 'blue' for val in cpu_data]
     mem_colors = ['orange' if val >= 90 else 'green' for val in mem_data]
 
-    # ✅ [변경] scatter로 개별 마커 시각화
+    # 선: 색상 조건별로 나눠서 따로 그림
+    def plot_colored_line(data, colors, label_prefix):
+        for color in set(colors):
+            indices = [i for i, c in enumerate(colors) if c == color]
+            if len(indices) >= 2:
+                x_vals = [x[j] for j in indices]
+                y_vals = [data[j] for j in indices]
+                plt.plot(x_vals, y_vals, color=color, alpha=0.4, label=f"{label_prefix} {color.title()} Line")
+
+    plot_colored_line(cpu_data, cpu_colors, "CPU")
+    plot_colored_line(mem_data, mem_colors, "MEM")
+
+    # 점: 색상 그대로
     plt.scatter(x, cpu_data, label="CPU Usage (%)", c=cpu_colors)
     plt.scatter(x, mem_data, label="Memory Usage (%)", c=mem_colors)
 
@@ -49,11 +61,25 @@ def animate(i):
     plt.grid(True)
     plt.tight_layout()
 
-    # ✅ [추가] 콘솔 경고
+    # 실시간 경고
     if any(val >= 90 for val in cpu_data):
         print("⚠️ CPU ALERT: Usage exceeded 90%!")
     if any(val >= 90 for val in mem_data):
         print("⚠️ MEMORY ALERT: Usage exceeded 90%!")
+
+    # 요약 통계 1회 출력
+    if i == 1 and cpu_data and mem_data:
+        avg_cpu = sum(cpu_data) / len(cpu_data)
+        max_cpu = max(cpu_data)
+        min_cpu = min(cpu_data)
+
+        avg_mem = sum(mem_data) / len(mem_data)
+        max_mem = max(mem_data)
+        min_mem = min(mem_data)
+
+        print("\n🔍 리소스 사용 요약 (최근 20회 기준)")
+        print(f"🟦 CPU 평균: {avg_cpu:.1f}%, 최대: {max_cpu:.1f}%, 최소: {min_cpu:.1f}%")
+        print(f"🟩 MEM 평균: {avg_mem:.1f}%, 최대: {max_mem:.1f}%, 최소: {min_mem:.1f}%\n")
 
 fig = plt.figure(figsize=(10, 5))
 ani = animation.FuncAnimation(fig, animate, interval=2000)
