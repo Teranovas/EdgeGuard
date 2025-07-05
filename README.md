@@ -71,7 +71,7 @@ EdgeGuard/
 
 | 실시간 그래프 (예시) |
 |-----------------------|
-| ![result](resource_usage_20250705_225335.png) |
+| ![result](resource_usage_preview.png) |
 
 ---
 
