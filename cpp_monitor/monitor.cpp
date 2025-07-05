@@ -42,12 +42,22 @@ int main() {
         double cpu_usage = get_cpu_usage();
         double mem_usage = get_memory_usage();
 
+        // ✅ [추가] 경고 플래그 생성
+        std::string cpu_flag = cpu_usage >= 90.0 ? "HIGH" : "OK";
+        std::string mem_flag = mem_usage >= 90.0 ? "HIGH" : "OK";
+
+        // ✅ [변경] 로그에 경고 정보 포함
         std::ofstream out("/Users/apple/EdgeGuard/logs/data.txt", std::ios::app);
-        out << "CPU Usage: " << cpu_usage << "%, "
-            << "Memory Usage: " << mem_usage << "%" << std::endl;
+        out << "CPU Usage: " << cpu_usage << "% (" << cpu_flag << "), "
+            << "Memory Usage: " << mem_usage << "% (" << mem_flag << ")" << std::endl;
         out.close();
 
+        // ✅ [추가] 콘솔에 경고 표시
         std::cout << "Saved: CPU " << cpu_usage << "%, Memory " << mem_usage << "%" << std::endl;
+        if (cpu_flag == "HIGH" || mem_flag == "HIGH") {
+            std::cout << "⚠️ ALERT: High resource usage detected!" << std::endl;
+        }
+
         sleep(5); // 5초 대기
     }
 

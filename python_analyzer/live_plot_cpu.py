@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use("TkAgg")  # macOS GUI 백엔드 설정
+matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib import animation
 import os
@@ -34,16 +34,26 @@ def animate(i):
     cpu_data, mem_data = read_usage_data()
     x = list(range(len(cpu_data)))
 
-    plt.plot(x, cpu_data, marker='o', label="CPU Usage (%)", color='blue')
-    plt.plot(x, mem_data, marker='s', label="Memory Usage (%)", color='green')
+    # ✅ [추가] 경고 색상 조건
+    cpu_colors = ['red' if val >= 90 else 'blue' for val in cpu_data]
+    mem_colors = ['orange' if val >= 90 else 'green' for val in mem_data]
+
+    # ✅ [변경] scatter로 개별 마커 시각화
+    plt.scatter(x, cpu_data, label="CPU Usage (%)", c=cpu_colors)
+    plt.scatter(x, mem_data, label="Memory Usage (%)", c=mem_colors)
 
     plt.title("Live CPU & Memory Usage")
     plt.xlabel("Measurement Index")
     plt.ylabel("Usage (%)")
-    # plt.ylim(0, 100)  # ← 주석 처리: 자동 스케일 조정됨
     plt.legend(loc="upper right")
     plt.grid(True)
     plt.tight_layout()
+
+    # ✅ [추가] 콘솔 경고
+    if any(val >= 90 for val in cpu_data):
+        print("⚠️ CPU ALERT: Usage exceeded 90%!")
+    if any(val >= 90 for val in mem_data):
+        print("⚠️ MEMORY ALERT: Usage exceeded 90%!")
 
 fig = plt.figure(figsize=(10, 5))
 ani = animation.FuncAnimation(fig, animate, interval=2000)
