@@ -83,7 +83,9 @@ def animate(i):
         print(f"🟩 MEM 평균: {avg_mem:.1f}%, 최대: {max_mem:.1f}%, 최소: {min_mem:.1f}%\n")
 
         # ✅ 그래프 저장
-        filename = f"resource_usage_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+        os.makedirs("images", exist_ok=True)
+
+        filename = f"images/graph_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
         plt.savefig(filename)
         print(f"📸 그래프 저장됨: {filename}")
 
