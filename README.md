@@ -87,10 +87,6 @@ EdgeGuard/
 
 ## 📎 기타
 
-- 추후 기능 아이디어: 음성 경고, CSV 기록, Slack 자동 전송 등
-- 오픈소스이며 자유롭게 수정 및 확장 가능합니다.
+- 추후 기능 아이디어: 음성 경고, CSV 기록 등
 
 ---
-
-> 개발자: [Teranovas](https://github.com/Teranovas)  
-> 문의: GitHub Issues로 등록해주세요.
